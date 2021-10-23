@@ -1,0 +1,4 @@
+.pagination-link.is-current {
+    background-color: hsl(217, 71%, 53%);
+    border-color: hsl(217, 71%, 53%);
+}

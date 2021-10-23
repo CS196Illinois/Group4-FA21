@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>CanvasJS Test</title>
+    <link rel="stylesheet" href="https://unpkg.com/bulma@0.9.3/css/bulma.min.css" />
+    <link rel="stylesheet" href="style.css" />
+    <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.stock.min.js"></script>
+</head>
+
+<!-- Most of this is filler data. TODO: use polling to populate the trade logs table & portfolio value graph -->
+
+<body>
+    <nav class="navbar is-light" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="#">
+                <img src="logo.png">
+            </a>
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+        <div class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item">
+                    Portfolio Performance
+                </a>
+                <a class="navbar-item">
+                    Research
+                </a>
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link">
+                        Strategy
+                    </a>
+                    <div class="navbar-dropdown">
+                        <a class="navbar-item">
+                            Algorithm 1
+                        </a>
+                        <a class="navbar-item">
+                            Algorithm 2
+                        </a>
+                        <a class="navbar-item">
+                            Algorithm 3
+                        </a>
+                        <hr class="navbar-divider">
+                        <a class="navbar-item">
+                            S&P 500
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="buttons">
+                        <a class="button is-primary has-background-link">
+                            <strong>Sign up</strong>
+                        </a>
+                        <a class="button is-light">
+                            Log in
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="section">
+            <h1 class="title">Portfolio Value</h1>
+            <div id="chartContainer" style="height: 450px; width: 100%;"></div>
+        </div>
+
+        <div class="section">
+            <h1 class="title">Trade Logs</h1>
+            <table class="table" style="width: 100%;">
+              <thead>
+                <tr>
+                  <th>Time Placed</th>
+                  <th>Time Executed</th>
+                  <th>Ticker</th>
+                  <th>Order Type</th>
+                  <th>PPS</th>
+                  <th># Shares</th>
+                  <th>Change in Balance</th>
+                </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <th>09-01-2000, 13:36:14</th>
+                <td>09-01-2000, 13:36:18</td>
+                <td><abbr title="Apple Inc.">AAPL</abbr></td>
+                <td>Market</td>
+                <td>$142.31</td>
+                <td>19</td>
+                <td class="has-text-success">+ $xx,xxx</td>
+              </tr>
+                <tr>
+                  <th>09-02-2021, 13:32:24</th>
+                  <td>09-02-2021, 13:32:26</td>
+                  <td><abbr title="Amazon.com, Inc.">AMZN</abbr></td>
+                  <td>Market</td>
+                  <td>$3,324.18</td>
+                  <td>23</td>
+                  <td class="has-text-danger">- $xx,xxx</td>
+                </tr>
+                <tr>
+                  <th>09-02-2021, 13:12:54</th>
+                  <td>09-02-2021, 13:12:58</td>
+                  <td><abbr title="AT&T Inc.">T</abbr></td>
+                  <td>Market</td>
+                  <td>$24.67</td>
+                  <td>19</td>
+                  <td class="has-text-success">+ $xx,xxx</td>
+                </tr>
+                <tr>
+                  <th>09-02-2021, 12:42:14</th>
+                  <td>09-02-2021, 12:42:17</td>
+                  <td><abbr title="Microsoft Corporation">MSFT</abbr></td>
+                  <td>Market</td>
+                  <td>$302.82</td>
+                  <td>20</td>
+                  <td class="has-text-danger">- $xx,xxx</td>
+                </tr>
+                <tr>
+                  <th>09-02-2021, 12:36:35</th>
+                  <td>09-02-2021, 12:36:52</td>
+                  <td><abbr title="Apple Inc.">AAPL</abbr></td>
+                  <td>Limit</td>
+                  <td>$140.13</td>
+                  <td>16 of 25</td>
+                  <td class="has-text-danger">- $xx,xxx</td>
+                </tr>
+                <tr>
+                  <th>09-02-2021, 12:32:26</th>
+                  <td>09-02-2021, 12:32:27</td>
+                  <td><abbr title="Walmart Inc.">WMT</abbr></td>
+                  <td>Market</td>
+                  <td>$142.12</td>
+                  <td>19</td>
+                  <td class="has-text-danger">- $xx,xxx</td>
+                </tr>
+              </tbody>
+            </table>
+            <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+              <a class="pagination-previous">Previous</a>
+              <a class="pagination-next">Next page</a>
+              <ul class="pagination-list">
+                <li><a class="pagination-link" aria-label="Goto page 1">1</a></li>
+                <li><span class="pagination-ellipsis">&hellip;</span></li>
+                <li><a class="pagination-link" aria-label="Goto page 45">45</a></li>
+                <li><a class="pagination-link is-current" aria-label="Page 46" aria-current="page">46</a></li>
+                <li><a class="pagination-link" aria-label="Goto page 47">47</a></li>
+                <li><span class="pagination-ellipsis">&hellip;</span></li>
+                <li><a class="pagination-link" aria-label="Goto page 86">86</a></li>
+              </ul>
+            </nav>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        window.onload = function() {
+            var stockChart = new CanvasJS.StockChart("chartContainer", {
+                animationEnabled: true,
+                exportEnabled: true,
+                charts: [{
+                    axisX: {
+                        crosshair: {
+                            enabled: true,
+                            snapToDataPoint: true
+                        }
+                    },
+                    axisY: {
+                        crosshair: {
+                            enabled: true,
+                            //snapToDataPoint: true
+                        }
+                    },
+                    data: data
+                }],
+                rangeSelector: {
+                    inputFields: {
+                        startValue: "2021-09-29",
+                        endValue: "2022-01-01",
+                        valueFormatString: "YYYY-MM-DD"
+                    },
+
+                    buttons: [{
+                        label: "1 day",
+                        range: 1,
+                        rangeType: "day"
+                    }, {
+                        label: "5 days",
+                        range: 5,
+                        rangeType: "day"
+                    }, {
+                        label: "3 months",
+                        range: 3,
+                        rangeType: "month"
+                    }, {
+                        label: "1 year",
+                        range: 1,
+                        rangeType: "year"
+                    }, {
+                        label: "All",
+                        rangeType: "all"
+                    }]
+                }
+            });
+
+            stockChart.render();
+        }
+
+        var data = [];
+        var dataSeries = {
+            type: "spline"
+        };
+        var dataPoints = [
+            { "x": new Date(1633053788 * 1000), "y": 100000 },
+        	{ "x": new Date(1633063788 * 1000), "y": 100194 },
+        	{ "x": new Date(1633073788 * 1000), "y": 99905 },
+        	{ "x": new Date(1633083788 * 1000), "y": 100082 },
+        	{ "x": new Date(1633093788 * 1000), "y": 101065 },
+            { "x": new Date(1633103788 * 1000), "y": 100065 },
+            { "x": new Date(1633303788 * 1000), "y": 101065 },
+            { "x": new Date(1633403788 * 1000), "y": 101065 },
+            { "x": new Date(1633503788 * 1000), "y": 102065 },
+            { "x": new Date(1633603788 * 1000), "y": 102465 },
+            { "x": new Date(1633703788 * 1000), "y": 102365 },
+            { "x": new Date(1633803788 * 1000), "y": 102265 },
+            { "x": new Date(1633903788 * 1000), "y": 102365 },
+            { "x": new Date(1634003788 * 1000), "y": 102465 }
+        ];
+        dataSeries.dataPoints = dataPoints;
+        data.push(dataSeries);
+    </script>
+</body>
+
+</html>
