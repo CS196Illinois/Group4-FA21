@@ -82,7 +82,7 @@
 
         <div class="section">
             <h1 class="title">Trade Logs</h1>
-            <table id="table" class="table" style="width: 100%;">
+            <table class="table" style="width: 100%;">
                 <thead>
                     <tr>
                         <th>Time Placed</th>
@@ -94,7 +94,7 @@
                         <th>Change in Balance</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="tableBody">
                     <tr>
                         <th>09-01-2000, 13:36:14</th>
                         <td>09-01-2000, 13:36:18</td>
@@ -171,9 +171,9 @@
     <script type="text/javascript" src="dashboard.js"></script>
     <script type="text/javascript">
         window.onload = function() {
-            initializeGraph();
+            renderGraphAndTable(true);
             setInterval(function() {
-                refreshGraph();
+                renderGraphAndTable();
             }, 5000);
         }
     </script>
