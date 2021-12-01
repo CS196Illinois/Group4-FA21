@@ -14,7 +14,7 @@
     <script type="text/javascript" src="https://pagination.js.org/dist/2.1.5/pagination.min.js"></script>
 </head>
 
-<!-- Most of this is filler data. TODO: use polling to populate the trade logs table & portfolio value graph -->
+<!-- Most of this is filler data -->
 
 <body>
     <!-- NAV BAR -->
@@ -171,10 +171,8 @@
     <script type="text/javascript" src="dashboard.js"></script>
     <script type="text/javascript">
         window.onload = function() {
+            // this function will call itself 5 seconds after each time it fully executes
             renderGraphAndTable(true);
-            setInterval(function() {
-                renderGraphAndTable();
-            }, 5000);
         }
     </script>
 </body>
