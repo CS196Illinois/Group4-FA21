@@ -2,14 +2,18 @@ let stockChart;
 let dataFromAPI;
 
 function renderGraphAndTable(firstTimeRun) {
-    // TODO: fetch data from API & set to dataFromAPI
-    if (firstTimeRun) {
-        initializeGraph();
-    } else {
-        refreshGraph();
-    }
-    renderTable();
-    setTimeout(renderGraphAndTable, 5000);
+    var url = new URL("http://localhost:1337/api/v1");
+    fetch(url).then(response => {
+        // TODO: set dataFromAPI
+        console.log(response);
+        if (firstTimeRun) {
+            initializeGraph();
+        } else {
+            refreshGraph();
+        }
+        renderTable();
+        setTimeout(renderGraphAndTable, 5000);
+    });
 }
 
 function initializeGraph() {
