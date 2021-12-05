@@ -39,6 +39,12 @@ get = requests.get(get_url, data=req)
 print(get.text)
 
 
+# /portfolioInfo POST
+post_url = 'http://localhost:1337/api/v1/portfolioInfo'
+post = requests.post(post_url)
+print(post.text)
+
+
 # [!] still work in progress
 # /marketData real-time 
 
