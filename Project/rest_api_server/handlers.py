@@ -193,6 +193,18 @@ class order(RequestHandler):
                 await self.settings['db'].bracket_order.insert_one(parsed_data)
                 self.set_status(200, "order submitted and logged")
 
+                
+class portfolioInfo(RequestHandler):
+    async def post(self):
+        account = api.get_account()
+         
+        # Check our current balance vs. our balance at the last market close
+        balance_change = float(account.equity) - float(account.last_equity)
+        info = {"account_id": account.id, "account_number": account.account_number, "cash": account.cash, "equity": account.equity, "gain_loss": balance_change}
+        
+        await self.settings['portfolio_db'].portfolio_info.insert_one(info)
+        self.set_status(200, "portfolio gain/loss logged")
+
 
 # [!] might need some changes depending on how i figure out client side 
 class realMarketData(WebSocketHandler):
