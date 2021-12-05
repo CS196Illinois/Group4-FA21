@@ -25,7 +25,7 @@ class order(RequestHandler):
 
         for i in parsed_data['orderIDs']:
             if i[0:2] == "01":
-                cursor = self.settings['db'].buy_side_market.find({"orderID": i})      
+                cursor = self.settings['order_db'].buy_side_market.find({"orderID": i})      
                 if cursor is None:
                     raise HTTPError(
                         404, f"orders do not exist"
@@ -34,7 +34,7 @@ class order(RequestHandler):
                     self.write(str(document))
                 self.set_status(200, "order fetched")
             elif i[0:2] == "02":
-                cursor = self.settings['db'].sell_side_limit.find({"orderID": i})      
+                cursor = self.settings['order_db'].sell_side_limit.find({"orderID": i})      
                 if cursor is None:
                     raise HTTPError(
                         404, f"orders do not exist"
@@ -43,7 +43,7 @@ class order(RequestHandler):
                     self.write(str(document))
                 self.set_status(200, "order fetched")
             elif i[0:2] == "03":
-                cursor = self.settings['db'].trailing_stop.find({"orderID": i})      
+                cursor = self.settings['order_db'].trailing_stop.find({"orderID": i})      
                 if cursor is None:
                     raise HTTPError(
                         404, f"orders do not exist"
@@ -52,7 +52,7 @@ class order(RequestHandler):
                     self.write(str(document))
                 self.set_status(200, "order fetched")
             elif i[0:2] == "04":
-                cursor = self.settings['db'].bracket_order.find({"orderID": i})      
+                cursor = self.settings['order_db'].bracket_order.find({"orderID": i})      
                 if cursor is None:
                     raise HTTPError(
                         404, f"orders do not exist"
@@ -78,7 +78,7 @@ class order(RequestHandler):
             )
             print("[+] order submitted thru alpaca")
             
-            await self.settings['db'].buy_side_market.insert_one(parsed_data)
+            await self.settings['order_db'].buy_side_market.insert_one(parsed_data)
             print("[+] order logged in db")
 
             self.set_status(200, "order submitted and logged")
@@ -98,7 +98,7 @@ class order(RequestHandler):
             )
             print("[+] order submitted thru alpaca")
 
-            await self.settings['db'].sell_side_limit.insert_one(parsed_data)
+            await self.settings['order_db'].sell_side_limit.insert_one(parsed_data)
             print("[+] order logged in db")
             
             self.set_status(200, "order submitted and logged")
@@ -132,7 +132,7 @@ class order(RequestHandler):
                 )
                 print("[+] trailing stop order submitted")
 
-                await self.settings['db'].trailing_stop.insert_one(parsed_data)
+                await self.settings['order_db'].trailing_stop.insert_one(parsed_data)
                 self.set_status(200, "order submitted and logged")
             
             elif parsed_data['trail_price_or_percent'] == "percent":
@@ -147,7 +147,7 @@ class order(RequestHandler):
                 )
                 print("[+] trailing stop order submitted")
 
-                await self.settings['db'].trailing_stop.insert_one(parsed_data)
+                await self.settings['order_db'].trailing_stop.insert_one(parsed_data)
                 self.set_status(200, "order submitted and logged")
 
         
@@ -174,7 +174,7 @@ class order(RequestHandler):
                 )
                 print("[+] bracket order (both) submitted")
 
-                await self.settings['db'].bracket_order.insert_one(parsed_data)
+                await self.settings['order_db'].bracket_order.insert_one(parsed_data)
                 self.set_status(200, "order submitted and logged")
             
             elif parsed_data['strategy'] == "stop-loss":
@@ -190,7 +190,7 @@ class order(RequestHandler):
                 )
                 print("[+] bracket order (stop-loss) submitted")
 
-                await self.settings['db'].bracket_order.insert_one(parsed_data)
+                await self.settings['order_db'].bracket_order.insert_one(parsed_data)
                 self.set_status(200, "order submitted and logged")
 
                 
