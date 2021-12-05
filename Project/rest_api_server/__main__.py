@@ -15,7 +15,8 @@ def main():
         (r"/api/v1", MainRequestHandler),
         (r"/api/v1/order", order),
         (r"/api/v1/marketData/realtime", realMarketData),
-        (r"/api/v1/marketData/historic", historicMarketData)
+        (r"/api/v1/marketData/historic", historicMarketData),
+        (r"/api/v1/portfolioInfo", portfolioInfo)
     ],
     debug=True,
     autoreload=True)
@@ -26,6 +27,7 @@ def main():
     uri = os.environ["MONGO_URI"]
     motor_client = motor.motor_tornado.MotorClient(uri)
     application.settings['db'] = motor_client.orders
+    application.settings['portfolio_db'] = motor_client.portfolio
 
     ioloop.start()
 
