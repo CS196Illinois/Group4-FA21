@@ -4,7 +4,7 @@ from tornado.ioloop import IOLoop
 from tornado.platform.asyncio import AsyncIOMainLoop
 from handlers import *
 
-import motor 
+import motor
 import os
 
 def main():
@@ -20,13 +20,13 @@ def main():
     ],
     debug=True,
     autoreload=True)
-    
+
     application.listen(1337)
     print(f'server is listening on port 1337')
 
     uri = os.environ["MONGO_URI"]
     motor_client = motor.motor_tornado.MotorClient(uri)
-    application.settings['db'] = motor_client.orders
+    application.settings['order_db'] = motor_client.orders
     application.settings['portfolio_db'] = motor_client.portfolio
 
     ioloop.start()
