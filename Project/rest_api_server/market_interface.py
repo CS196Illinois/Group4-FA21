@@ -28,10 +28,10 @@ class market_interface:
             client_order_id = order_id
         )
         await db.buy_side_market.insert_one({
-            order_type: "buy_side_market",
-            ticker: ticker,
-            quantity: quantity,
-            orderID: order_id
+            "order_type": "buy_side_market",
+            "ticker": ticker,
+            "quantity": quantity,
+            "orderID": order_id
         })
 
     async def sell_side_limit(ticker, quantity, lim_price):
@@ -46,11 +46,11 @@ class market_interface:
             client_order_id = order_id
         )
         await db.sell_side_limit.insert_one({
-            order_type: "sell_side_limit",
-            ticker: ticker,
-            quantity: quantity,
-            lim_price: lim_price,
-            orderID: order_id
+            "order_type": "sell_side_limit",
+            "ticker": ticker,
+            "quantity": quantity,
+            "lim_price": lim_price,
+            "orderID": order_id
         })
 
     async def trailing_stop(ticker, quantity, trail_price_or_percent, trail_price):
@@ -85,13 +85,13 @@ class market_interface:
                 client_order_id = trail_order_id
             )
         await db.trailing_stop.insert_one({
-            order_type: "trailing_stop",
-            ticker: ticker,
-            quantity: quantity,
-            trail_price_or_percent: trail_price_or_percent,
-            trail_price: trail_price,
-            buy_orderID: buy_order_id,
-            trail_orderID: trail_order_id
+            "order_type": "trailing_stop",
+            "ticker": ticker,
+            "quantity": quantity,
+            "trail_price_or_percent": trail_price_or_percent,
+            "trail_price": trail_price,
+            "buy_orderID": buy_order_id,
+            "trail_orderID": trail_order_id
         })
 
     async def bracket_order(ticker, quantity, strategy, percentage):
@@ -125,10 +125,10 @@ class market_interface:
                 client_order_id = order_id
             )
         await db.bracket_order.insert_one({
-            order_type: "bracket_order",
-            ticker: ticker,
-            quantity: quantity,
-            strategy: strategy,
-            percentage: percentage,
-            orderID: order_id
+            "order_type": "bracket_order",
+            "ticker": ticker,
+            "quantity": quantity,
+            "strategy": strategy,
+            "percentage": percentage,
+            "orderID": order_id
         })
