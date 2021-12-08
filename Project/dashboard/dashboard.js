@@ -1,3 +1,5 @@
+
+
 let stockChart;
 let portfolioInfo;
 
@@ -86,6 +88,9 @@ function refreshGraph() {
 function getGraphDataPoints() {
     let dataPoints = [];
     for (let i = 0; i < portfolioInfo.equity.length; i++) {
+        if (!portfolioInfo.equity[i]) {
+            continue;
+        }
         let date = new Date(0);
         date.setUTCSeconds(portfolioInfo.timestamp[i]);
         dataPoints.push({
@@ -124,7 +129,7 @@ function renderTable() {
         }
         tableBodyHTML += `<td><abbr title="">${order.ticker}</abbr></td>`;
         tableBodyHTML += `<td>${order.type.charAt(0).toUpperCase() + order.type.slice(1)}</td>`;
-        tableBodyHTML += `<td>${order.pps ? "$" + order.pps : "Unfilled"}</td>`;
+        tableBodyHTML += `<td>${order.filled_avg_price ? "$" + order.filled_avg_price : "Unfilled"}</td>`;
         if (order.filled_quantity === order.quantity || order.filled_quantity === "0") {
             tableBodyHTML += `<td>${order.quantity}</td>`;
         } else {
@@ -133,9 +138,9 @@ function renderTable() {
         if (order.filled_quantity === "0") {
             tableBodyHTML += `<td class="has-text-link">Unfilled</td>`;
         } else if (order.buy_or_sell === "buy") {
-            tableBodyHTML += `<td class="has-text-danger">- $${order.filled_quantity * order.filled_avg_price}</td>`;
+            tableBodyHTML += `<td class="has-text-danger">- $${inCommaFormat(product(order.filled_quantity, order.filled_avg_price))}</td>`;
         } else {
-            tableBodyHTML += `<td class="has-text-success">+ $${order.filled_quantity * order.filled_avg_price}</td>`;
+            tableBodyHTML += `<td class="has-text-success">+ $${inCommaFormat(product(order.filled_quantity, order.filled_avg_price))}</td>`;
         }
         tableBodyHTML += "<tr>";
     }
