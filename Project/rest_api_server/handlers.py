@@ -56,15 +56,35 @@ class order(RequestHandler):
 
 
 class portfolioInfo(RequestHandler):
-    async def post(self):
-        account = api.get_account()
+    def set_default_headers(self):
+        self.set_header("Access-Control-Allow-Origin", "*")
+        self.set_header("Access-Control-Allow-Headers", "x-requested-with")
+        self.set_header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS')
 
-        # Check our current balance vs. our balance at the last market close
-        balance_change = float(account.equity) - float(account.last_equity)
-        info = {"account_id": account.id, "account_number": account.account_number, "cash": account.cash, "equity": account.equity, "gain_loss": balance_change}
+    async def get(self):
+        portfolio_history = api.get_portfolio_history(date_start=None, date_end=None, period="29D", timeframe="15Min", extended_hours=None)
+        portfolio_info = {
+            "equity": getattr(portfolio_history, "equity"),
+            "timestamp": getattr(portfolio_history, "timestamp"),
+            "orders": []
+        }
 
-        await self.settings['portfolio_db'].portfolio_info.insert_one(info)
-        self.set_status(200, "portfolio gain/loss logged")
+        orders = api.list_orders(status=None, limit=None, after=None, until=None, direction=None, nested=None)
+        for order in orders:
+            portfolio_info["orders"].append({
+                "placed_at": str(getattr(order, "submitted_at")),
+                "filled_at": str(getattr(order, "filled_at")),
+                "expired_at": str(getattr(order, "expired_at")),
+                "ticker": getattr(order, "symbol"),
+                "quantity": getattr(order, "qty"),
+                "filled_quantity": getattr(order, "filled_qty"),
+                "type": getattr(order, "type"),
+                "buy_or_sell": getattr(order, "side"),
+                "pps": getattr(order, "filled_avg_price")
+            })
+
+        self.write(json.dumps(portfolio_info))
+        self.set_status(200, "fetched portfolio info")
 
 
 # [!] might need some changes depending on how i figure out client side
