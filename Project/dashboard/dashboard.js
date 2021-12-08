@@ -1,11 +1,10 @@
 let stockChart;
-let dataFromAPI;
+let portfolioInfo;
 
 function renderGraphAndTable(firstTimeRun) {
-    var url = new URL("http://localhost:1337/api/v1");
-    fetch(url).then(response => {
-        // TODO: set dataFromAPI
-        console.log(response);
+    var url = new URL("http://localhost:1337/api/v1/portfolioInfo");
+    fetch(url).then(response => response.json()).then(data => {
+        portfolioInfo = data;
         if (firstTimeRun) {
             initializeGraph();
         } else {
@@ -84,37 +83,23 @@ function refreshGraph() {
     stockChart.charts[0].set("data", data);
 }
 
-// *** TEMP - initial filler data //
-let dataPoints = [];
-let time = 1633053788;
-for (var i = 0; i < 15; i++) {
-    dataPoints.push({
-        "x": new Date(time * 1000),
-        "y": Math.floor(Math.random() * 8000 + 92000)
-    });
-    time += 33000;
-}
-// *** //
-
 function getGraphDataPoints() {
-    // TODO: populate graph with real data instead of filler data (loop through dataFromAPI and add to dataPoints as needed)
-    //let dataPoints = [];
-
-    // *** TEMP - periodic filler data //
-    dataPoints.push({
-        "x": new Date(time * 1000),
-        "y": Math.floor(Math.random() * 8000 + 92000)
-    });
-    time += 33000;
-    // *** //
-
+    let dataPoints = [];
+    for (var i = 0; i < portfolioInfo.equity.length; i++) {
+        let date = new Date(0);
+        date.setUTCSeconds(portfolioInfo.timestamp[i]);
+        dataPoints.push({
+            "x": date,
+            "y": portfolioInfo.equity[i]
+        });
+    }
     return dataPoints;
 }
 
 const tableBody = document.querySelector("#tableBody");
 
 function renderTable() {
-    // TODO: populate table with real data instead of filler data (loop through dataFromAPI and add to HTML as needed)
+    // TODO: populate table with real data instead of filler data (loop through portfolioInfo and add to HTML as needed)
 
     // *** TEMP - periodic filler data
     var pps = Math.round((Math.random() * 129 + 50) * 100) / 100;
