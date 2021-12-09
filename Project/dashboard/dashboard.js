@@ -12,7 +12,7 @@ function renderGraphAndTable(firstTimeRun) {
             refreshGraph();
         }
         renderTable();
-        // setTimeout(renderGraphAndTable, 5000);
+        setTimeout(renderGraphAndTable, 5000);
     });
 }
 
