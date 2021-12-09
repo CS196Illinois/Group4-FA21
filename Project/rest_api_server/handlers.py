@@ -62,14 +62,14 @@ class portfolioInfo(RequestHandler):
         self.set_header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS')
 
     async def get(self):
-        portfolio_history = api.get_portfolio_history(date_start=None, date_end=None, period="29D", timeframe="15Min", extended_hours=None)
+        portfolio_history = api.get_portfolio_history(date_start=None, date_end=None, period="29D", timeframe="5Min", extended_hours=None)
         portfolio_info = {
             "equity": getattr(portfolio_history, "equity"),
             "timestamp": getattr(portfolio_history, "timestamp"),
             "orders": []
         }
 
-        orders = api.list_orders(status=None, limit=None, after=None, until=None, direction=None, nested=None)
+        orders = api.list_orders(status="all", limit=None, after=None, until=None, direction=None, nested=None)
         for order in orders:
             portfolio_info["orders"].append({
                 "placed_at": str(getattr(order, "submitted_at")),
@@ -80,7 +80,7 @@ class portfolioInfo(RequestHandler):
                 "filled_quantity": getattr(order, "filled_qty"),
                 "type": getattr(order, "type"),
                 "buy_or_sell": getattr(order, "side"),
-                "pps": getattr(order, "filled_avg_price")
+                "filled_avg_price": getattr(order, "filled_avg_price")
             })
 
         self.write(json.dumps(portfolio_info))
