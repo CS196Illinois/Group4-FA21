@@ -8,10 +8,6 @@
     <link rel="stylesheet" href="style.css" />
     <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.stock.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js" integrity="sha512-WFN04846sdKMIP5LKNphMaWzU7YpMyCU245etK3g/2ARYbPK9Ub18eG+ljU96qKRCWh+quCY7yefSmlkQw1ANQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
-    </script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="https://pagination.js.org/dist/2.1.5/pagination.min.js"></script>
 </head>
 
 <body>
@@ -74,7 +70,7 @@
     <!-- PORTFOLIO VALUE GRAPH & TRADING LOGS TABLE -->
     <div class="container">
         <div class="section">
-            <h1 class="title">Portfolio Value</h1>
+            <h1 class="title">Portfolio Profit</h1>
             <div id="chartContainer" style="height: 450px; width: 100%;"></div>
         </div>
 
@@ -94,21 +90,18 @@
                 </thead>
                 <tbody id="tableBody"></tbody>
             </table>
-            <nav class="pagination is-centered" role="navigation" aria-label="pagination">
-                <a class="pagination-previous">Previous</a>
-                <a class="pagination-next">Next page</a>
-                <ul class="pagination-list">
-                    <li><a class="pagination-link" aria-label="Goto page 1">1</a></li>
-                    <li><span class="pagination-ellipsis">&hellip;</span></li>
-                    <li><a class="pagination-link" aria-label="Goto page 45">45</a></li>
-                    <li><a class="pagination-link is-current" aria-label="Page 46" aria-current="page">46</a></li>
-                    <li><a class="pagination-link" aria-label="Goto page 47">47</a></li>
-                    <li><span class="pagination-ellipsis">&hellip;</span></li>
-                    <li><a class="pagination-link" aria-label="Goto page 86">86</a></li>
+            <nav class="pagination is-centered">
+                <a id="pagination-previous" class="pagination-previous" disabled>Previous</a>
+                <a id="pagination-next" class="pagination-next" disabled>Next page</a>
+                <ul id="pagination" class="pagination-list">
+                    <button class="button is-loading" style="border: none">Loading</button>
                 </ul>
             </nav>
         </div>
     </div>
+
+    <script type="text/javascript" src="utils.js"></script>
+    <script type="text/javascript" src="pagination.js"></script>
 
     <!-- POPULATE THE PORTFOLIO VALUE GRAPH -->
     <script type="text/javascript" src="dashboard.js"></script>
